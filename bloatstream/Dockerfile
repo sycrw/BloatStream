@@ -26,8 +26,6 @@ COPY --from=builder /app/public ./public
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-#get .env
-COPY --from=builder --chown=nextjs:nodejs /app/.env ./.env
 #get prisma files
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 #get start.sh

@@ -19,5 +19,11 @@ services:
     container_name: {imagename}
     ports:
       - 1000:3000
+    environment:
+      - NEXTAUTH_SECRET=
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_CLIENT_SECRET=
+      - DB_URL=
+      - APP_URL=
 volumes:
   bloatstream-mariadb-{branch}:
