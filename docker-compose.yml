@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: bloatstream-mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=db
+    volumes:
+      - bloatstream-mariadb-{branch}:/var/lib/mysql
+  pma:
+    image: phpmyadmin
+    container_name: bloatstream-pma
+    ports:
+      - 1001:80
+    environment:
+      - PMA_ARBITRARY=1
+  app:
+    image: localhost:5000/{imagename}
+    container_name: {imagename}
+    ports:
+      - 1000:3000
+volumes:
+  bloatstream-mariadb-{branch}:
