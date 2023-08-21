@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: "{{defaultContext}}:bloatstream"
-          file: ./Dockerfile.int
+          file: ./Dockerfile
           push: true
           tags: registry.raspi.timkausemann.de/bloatstream-int:latest
           cache-from: type=local,src=/tmp/.buildx-cache
