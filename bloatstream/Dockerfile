@@ -34,7 +34,8 @@ RUN chmod +x ./start.sh
 #get package.json
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 #get node_modules
-# COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/node_modules ./node_modules
+
 #get public
 COPY --from=builder /app/public ./public
 
