@@ -1,15 +1,18 @@
+import PostList from "./components/organisms/PostList";
+import PostModal from "./components/organisms/PostModal";
 import { getAuthenticatedUser } from "@/lib/auth/getAuthenticatedUser";
 import { getServerSession } from "next-auth";
-import { json } from "stream/consumers";
 
-export default async function Home() {
+interface Props {
+  searchParams: Record<string, string> | undefined | null;
+}
+
+export default async function Home({ searchParams }: Props) {
   const sessionUser = await getServerSession();
-  console.log(sessionUser);
   const user = await getAuthenticatedUser();
-
   return (
     <>
-      <h1>Welcome {user.name}</h1>
+      <PostList />
     </>
   );
 }
