@@ -21,10 +21,10 @@ export const getAuthenticatedUser = async () => {
     });
     //if user not defined, redirect to sign in page
     if(!user){
-        signIn(
+        await signIn(
             "google",{
                 redirect:true,
-                callbackUrl:process.env.APP_URL + "/api/auth/signin",
+                callbackUrl:process.env.APP_URL + "/",
             }
         )
         return user;
