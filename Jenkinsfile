@@ -9,27 +9,13 @@ pipeline {
   }
   environment {
     registry = "registry.raspi.timkausemann.de"
-    registryUser = 
-    registryPass = 
+    credentialsId = "1"
     imageName = "bloatstream-int"
   }
   stages {
-    //log the project structure
-    stage('Show Project Structure') {
+    stage('Checkout') {
       steps {
-        sh 'pwd'
-        sh 'ls'
-      }
-    }
-    stage('Checkout to int') {
-      steps {
-        sh 'git checkout int'
-      }
-    }
-    stage('Show Project Structure after checkout') {
-      steps {
-        sh 'pwd'
-        sh 'ls'
+        checkout scmGit(branches: [[name: '*/int']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sycrw/BloatStream.git']])
       }
     }
     stage('Build') {
@@ -39,16 +25,11 @@ pipeline {
         }
       }
     }
-    stage('Login') {
-      steps {
-        sh 'docker login -u ' + registryUser + ' -p ' + registryPass + ' ' + registry
-      }
-    }
     stage('Push') {
       steps {
         script {
-          docker.withRegistry( '', registryUser ) {
-            docker.image( registry + '/' + imageName ).push()
+          docker.withRegistry( "registry.raspi.timkausemann.de", credentialsId ) {
+            dockerImage.push()
           }
         }
       }
