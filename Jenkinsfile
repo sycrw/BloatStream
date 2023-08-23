@@ -1,3 +1,7 @@
+node{
+
+}
+
 pipeline {
   agent any
   options {
@@ -5,16 +9,33 @@ pipeline {
   }
   environment {
     registry = "registry.raspi.timkausemann.de"
-    registryUser = "tim.kausemann"
-    registryPass = "tim.kausemann"
+    registryUser = 
+    registryPass = 
     imageName = "bloatstream-int"
   }
   stages {
+    //log the project structure
+    stage('Show Project Structure') {
+      steps {
+        sh 'pwd'
+        sh 'ls'
+      }
+    }
+    stage('Checkout to int') {
+      steps {
+        sh 'git checkout int'
+      }
+    }
+    stage('Show Project Structure after checkout') {
+      steps {
+        sh 'pwd'
+        sh 'ls'
+      }
+    }
     stage('Build') {
       steps {
         script {
-          dir
-          docker.build( registry + '/' + imageName, 'bloatstream' )
+          docker.build( registry + '/' + imageName, '.' )
         }
       }
     }
