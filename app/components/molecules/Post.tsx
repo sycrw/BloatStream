@@ -30,7 +30,9 @@ const Post = ({ content, id, author, rating }: Props) => {
         <div className="flex justify-between items-center">
           <img src="" alt="" />
         </div>
-        <div className="flex justify-between items-center"></div>
+        <div className="flex justify-between items-center">
+          Likes and what not
+        </div>
       </div>
     </div>
   );
