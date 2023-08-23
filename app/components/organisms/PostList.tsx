@@ -13,8 +13,8 @@ const PostList = async () => {
           image: post.author.image,
         };
         const rating = {
-          likes: post.likes,
-          dislikes: post.dislikes,
+            likes: post.likes.filter((like) => like.type).length,
+            dislikes: post.likes.filter((like) => !like.type).length
         };
         return (
           <Post

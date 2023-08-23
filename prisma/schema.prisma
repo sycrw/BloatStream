@@ -60,23 +60,22 @@ model Post {
   id        Int      @id @default(autoincrement())
   content   String   @db.VarChar(500)
   createdAt DateTime @default(now())
-  dislikes  Int      @default(0)
-  //author with relation to User
+  // author with relation to User
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  //likes with relation to Like
+  // likes with relation to Like
   likes     Like[]
 }
 
 model Like {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  //author with relation to User
+  // author with relation to User
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  //post with relation to Post
+  // post with relation to Post
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int
-  //type of like
-  type      Boolean? //true = like, false = dislike
+  // type of like
+  type      Boolean? // true = like, false = dislike
 }
