@@ -1,3 +1,5 @@
+import RatingButton from "../atoms/RatingButton";
+
 interface Props {
   content: string;
   id: number;
@@ -27,6 +29,10 @@ const Post = ({ content, id, author, rating }: Props) => {
         {/* Progress bar on how many likes and dis likes, scaling from the center */}
         <div className="flex justify-between items-center">
           <img src="" alt="" />
+        </div>
+        <div className="flex justify-between items-center">
+          <RatingButton />
+          <RatingButton />
         </div>
       </div>
     </div>

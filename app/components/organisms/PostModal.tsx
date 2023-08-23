@@ -23,6 +23,7 @@ const PostModal = () => {
     if (res.ok) {
       setContent("");
       router.replace("/");
+      router.refresh();
     } else {
       res.json().then((data) => {
         setError(data.error);
