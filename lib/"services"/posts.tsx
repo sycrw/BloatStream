@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { prisma } from "../db/db";
 
-export const getAllPosts = async (user: User) => {
+export const getAllPosts = async (user: User | null) => {
   const posts = await prisma.post.findMany({
     orderBy: {
       id: "desc",

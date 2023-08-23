@@ -1,0 +1,5 @@
+node_modules
+Dockerfile
+.env.int
+.env.prod
+.env
