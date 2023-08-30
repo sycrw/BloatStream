@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DB_URL")
+  url      = "mysql://root:1234@localhost:3306/db"
 }
 
 model Account {
@@ -77,5 +77,5 @@ model Like {
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int
   // type of like
-  type      Boolean? // true = like, false = dislike
+  type      Boolean? // true = like, false = dislike, null = nothing
 }

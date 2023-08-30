@@ -17,7 +17,6 @@ export async function POST (req:NextRequest, res:NextResponse) {
     if(!user){
         return NextResponse.json({error:"not authenticated"}, {status: 401});
     }
-
    const dbres = await prisma.post.create({
         data:{
             content:data.content,
@@ -26,10 +25,5 @@ export async function POST (req:NextRequest, res:NextResponse) {
         }
     )
     console.log(dbres);
-                
-
-
    return NextResponse.json({},{status: 201});
-
-
 }

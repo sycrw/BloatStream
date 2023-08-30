@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+.likeActive > svg {
+    @apply fill-green-300;
+}
+.likeActive>p{
+    @apply text-green-300;
+}
+
+.dislikeActive > svg {
+    @apply fill-red-500;
+}
+.dislikeActive >p{
+    @apply text-red-500;
+}
