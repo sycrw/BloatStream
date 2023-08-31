@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAuthenticatedUser } from "@/lib/auth/getAuthenticatedUser";
+import { getAuthenticatedUser } from '@/lib/"services"/user';
 import { prisma } from "@/lib/db/db";
 
 //post endpoint for creating a post
@@ -25,5 +25,5 @@ export async function POST (req:NextRequest, res:NextResponse) {
         }
     )
     console.log(dbres);
-   return NextResponse.json({},{status: 201});
+   return NextResponse.json({dbres},{status: 201});
 }

@@ -1,25 +1,30 @@
-"use client";
-
 import Image from "next/image";
-import { Like } from "@/lib/types/enums/likes";
-import RatingButton from "../atoms/RatingButton";
-import { useState } from "react";
+import { Like } from "@prisma/client";
+import { LikeEnum } from "@/lib/types/enums/likes";
+import ReactionBar from "../atoms/ReactionBar";
+import { getAuthenticatedUser } from '@/lib/"services"/user';
 interface Props {
   content: string;
   id: number;
   author: {
     name: string | null;
     image: string | null;
-    like: Like;
   };
-  rating: {
-    likes: number;
-    dislikes: number;
-  };
+  likes: Like[];
 }
 
-const Post = ({ content, id, author, rating }: Props) => {
-  const [error, setError] = useState("");
+const Post = async ({ content, id, author, likes }: Props) => {
+  const likeAmount = likes.filter((like) => like.type === true).length;
+  const dislikeAmount = likes.filter((like) => like.type === false).length;
+  //check if current user liked/disliked post
+  //id of the current user
+  const user = await getAuthenticatedUser();
+  const userChoice = likes.find((like) => like.authorId === user?.id);
+  const userReaction = userChoice?.type
+    ? LikeEnum.LIKE
+    : userChoice?.type === false
+    ? LikeEnum.DISLIKE
+    : LikeEnum.NULL;
 
   return (
     <div className=" sm:w-80 md:w-96 lg:w-[500px] xl:w-[550px] 2xl:w-[600px] w-52 rounded-lg m-4 hover:shadow-xl hover:scale-[1.01] transition-all bg-info text-primary-content">
@@ -36,23 +41,13 @@ const Post = ({ content, id, author, rating }: Props) => {
           />
         </div>
         <p>{content}</p>
-        <div className="flex justify-between items-center mt-2">
-          <RatingButton
-            art={Like.LIKE}
-            PostId={id}
-            value={rating.likes}
-            active={author.like == Like.LIKE}
-            onError={(error) => setError(error)}
-          />
-          <RatingButton
-            art={Like.DISLIKE}
-            PostId={id}
-            value={rating.dislikes}
-            active={author.like == Like.DISLIKE}
-            onError={(error) => setError(error)}
-          />
-        </div>
-        {error && <p className="text-red-500">{error}</p>}
+        <ReactionBar
+          likes={likeAmount}
+          dislikes={dislikeAmount}
+          user={userReaction}
+          postId={id}
+          likesList={likes}
+        ></ReactionBar>
       </div>
     </div>
   );

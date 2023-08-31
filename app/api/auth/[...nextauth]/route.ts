@@ -4,8 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 import {JWT} from "next-auth/jwt";
-
-const prisma = new PrismaClient();
+import {prisma} from "@/lib/db/db";
 export const authOptions:NextAuthOptions = {
     adapter:PrismaAdapter(prisma) as Adapter,
     session:{

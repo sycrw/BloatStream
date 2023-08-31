@@ -1,6 +1,6 @@
 import SignOutButton from "../components/atoms/SignOutButton";
 import { User } from "@prisma/client";
-import { getAuthenticatedUser } from "@/lib/auth/getAuthenticatedUser";
+import { getAuthenticatedUser } from '@/lib/"services"/user';
 import { signOut } from "next-auth/react";
 
 const me = async () => {

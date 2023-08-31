@@ -1,7 +1,7 @@
-import { Like } from "@/lib/types/enums/likes";
+import { Like } from "@prisma/client";
 import Post from "../molecules/Post";
 import { getAllPosts } from '@/lib/"services"/posts';
-import { getAuthenticatedUser } from "@/lib/auth/getAuthenticatedUser";
+import { getAuthenticatedUser } from '@/lib/"services"/user';
 
 const PostList = async () => {
   const user = await getAuthenticatedUser();
@@ -15,23 +15,14 @@ const PostList = async () => {
         const author = {
           name: post.author.name,
           image: post.author.image,
-          like:
-            likeType == true
-              ? Like.LIKE
-              : likeType == false
-              ? Like.DISLIKE
-              : Like.NULL,
         };
-        const rating = {
-          likes: post.likes.filter((like) => like.type).length,
-          dislikes: post.likes.filter((like) => !like.type).length,
-        };
+
         return (
           <Post
             key={post.id}
             content={post.content}
             author={author}
-            rating={rating}
+            likes={post.likes as unknown as Like[]}
             id={post.id}
           />
         );

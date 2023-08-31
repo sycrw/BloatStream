@@ -13,7 +13,19 @@ export const getAllPosts = async (user: User | null) => {
           name: true,
         },
       },
-      likes:true
+      likes: {
+        select: {
+          authorId: true,
+          type: true,
+          createdAt:true,
+          author: {
+            select: {
+              image: true,
+              name: true,
+            },
+          },
+        },
+      }
     },
   });
   return posts;

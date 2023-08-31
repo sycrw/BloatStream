@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAuthenticatedUser } from "@/lib/auth/getAuthenticatedUser";
+import { getAuthenticatedUser } from '@/lib/"services"/user';
 import { prisma } from "@/lib/db/db";
 
 //post endpoint for creating a post
@@ -14,7 +14,7 @@ export async function POST (req:NextRequest, res:NextResponse,) {
     //url = https://-----/api/posts/[id]/likes
     //get id from url
     const id = Number(req.url.split("/")[5]) ;
-console.log(id,"id");
+    console.log(id,"id");
     const user = await getAuthenticatedUser();
     const data:{type:LikeType} = await req.json();
     console.log(data);
@@ -57,5 +57,5 @@ console.log(id,"id");
         console.log(dbres);
     }
 
-   return NextResponse.json({action: data.type},{status: 201});
+   return NextResponse.json({dbres},{status: 201});
 }
