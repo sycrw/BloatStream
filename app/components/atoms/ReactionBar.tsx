@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { Like } from "@prisma/client";
 import { LikeEnum } from "@/lib/types/enums/likes";
+import { LikeWithPostAndUser } from "@/lib/types/prisma-extended/like-with-post-and-user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ReactionBarProps {
   user: LikeEnum;
   postId: number;
-  likesList: Like[];
+  likesList: LikeWithPostAndUser[];
 }
 
 const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
@@ -138,14 +138,14 @@ const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
           {/* list container */}
           <div>
             <ul className="divide-y divide-gray-200">
-              {likesList.map((like: any, i: number) => {
+              {likesList.map((like: LikeWithPostAndUser, i: number) => {
                 const date = new Date(like.createdAt);
                 return (
                   <li className="py-4 flex justify-between" key={i}>
                     <div className="flex ">
                       <Image
                         unoptimized
-                        src={like.author.image}
+                        src={like.author.image! || "/person.svg"}
                         width={40}
                         height={40}
                         alt="image"
