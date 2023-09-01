@@ -24,6 +24,7 @@ const PostList = async () => {
             author={author}
             likes={post.likes as unknown as Like[]}
             id={post.id}
+            createdAt={post.createdAt}
           />
         );
       })}
