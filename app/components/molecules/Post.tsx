@@ -37,17 +37,22 @@ const Post = async ({ content, id, author, likes, createdAt }: Props) => {
     const seconds = Math.floor(
       ((((timeSince % 31536000000) % 86400000) % 3600000) % 60000) / 1000
     );
-
-    if (minutes < 60) {
-      return `${minutes} min and ${seconds} sec ago`;
+    if (years > 0) {
+      return `${years} years ago`;
     }
-    if (hours < 24) {
-      return `${hours} h and ${minutes} min ago`;
+    if (days > 0) {
+      return `${days} days ago`;
     }
-    if (days < 30) {
-      return `${days} days ${hours} h ago`;
+    if (hours > 0) {
+      return `${hours} hours ago`;
     }
-    return `${years} years {day} days ago`;
+    if (minutes > 0) {
+      return `${minutes} minutes ago`;
+    }
+    if (seconds > 0) {
+      return `${seconds} seconds ago`;
+    }
+    return "just now";
   };
   return (
     <div className=" w-full rounded-lg m-4 hover:shadow-xl hover:scale-[1.01] transition-all bg-info  text-black">

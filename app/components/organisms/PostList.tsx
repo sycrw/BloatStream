@@ -10,8 +10,6 @@ const PostList = async () => {
   return (
     <div className="w-9/12 flex flex-col items-center p-4 border-gray-500 m-auto ">
       {posts.map((post) => {
-        const userLiked = post.likes.find((like) => like.authorId === user?.id);
-        const likeType = userLiked ? userLiked.type : null;
         const author = {
           name: post.author.name,
           image: post.author.image,

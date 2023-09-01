@@ -47,6 +47,7 @@ model User {
   posts         Post[]
   Like          Like[]
   Notification  Notification[]
+  relatedUser   Notification[] @relation(name: "relatedUser")
 }
 
 model VerificationToken {
@@ -58,35 +59,52 @@ model VerificationToken {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  content   String   @db.VarChar(500)
-  createdAt DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  content      String         @db.VarChar(500)
+  createdAt    DateTime       @default(now())
   // author with relation to User
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     String
   // likes with relation to Like
-  likes     Like[]
+  likes        Like[]
+  Notification Notification[]
 }
 
 model Like {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
   // author with relation to User
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  author       User           @relation(fields: [authorId], references: [id])
+  authorId     String
   // post with relation to Post
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    Int
+  post         Post           @relation(fields: [postId], references: [id])
+  postId       Int
   // type of like
-  type      Boolean? // true = like, false = dislike, null = nothing
+  type         Boolean? // true = like, false = dislike, null = nothing
+  Notification Notification[]
 }
 
 model Notification {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
+  id            Int              @id @default(autoincrement())
+  createdAt     DateTime         @default(now())
   //for which User the notification is
-  user         User     @relation(fields: [userId], references: [id])
-  userId       String
-  seen         Boolean // true = seen, false = unseen
-  redirectLink String
+  user          User             @relation(fields: [userId], references: [id])
+  userId        String
+  //content of the notification
+  seen          Boolean          @default(false) // true = seen, false = unseen
+  type          NotificationType
+  //related info(Post, Like,...)
+  relatedPost   Post?            @relation(fields: [relatedPostId], references: [id])
+  relatedPostId Int?
+  relatedLike   Like?            @relation(fields: [relatedLikeId], references: [id])
+  relatedLikeId Int?
+  relatedUser   User?            @relation(name: "relatedUser", fields: [relatedUserId], references: [id])
+  relatedUserId String?
+}
+
+enum NotificationType {
+  Like
+  Dislike
+  Comment
+  Follow
 }

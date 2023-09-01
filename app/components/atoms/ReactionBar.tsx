@@ -86,7 +86,6 @@ const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
     const modal: any = document.getElementById(`likes${postId}`);
     modal?.showModal();
   };
-  console.log(likesList);
 
   return (
     <>
