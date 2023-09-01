@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { JWTSession } from "@/lib/types/JWTSession";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
@@ -10,7 +11,13 @@ const Navbar = async () => {
         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
           <div className="w-10 rounded-full">
             <Link href={`/me`}>
-              <img src={session?.user.image || "/person.svg"} />
+              <Image
+                src={session?.user.image || "/person.svg"}
+                alt="user image"
+                unoptimized
+                width={40}
+                height={40}
+              ></Image>
             </Link>
           </div>
         </label>

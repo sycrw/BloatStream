@@ -30,3 +30,18 @@ export const getAllPosts = async (user: User | null) => {
   });
   return posts;
 };
+
+
+export const getPostById = async (postId: number) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: Number(postId),
+    },
+    include: {
+      //include everything
+      author:true,
+      likes:true,
+    },
+  });
+  return post;
+};

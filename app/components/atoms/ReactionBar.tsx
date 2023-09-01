@@ -9,7 +9,7 @@ import { useState } from "react";
 interface ReactionBarProps {
   user: LikeEnum;
   postId: number;
-  likesList: any;
+  likesList: Like[];
 }
 
 const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAuthenticatedUser } from '@/lib/"services"/user';
+import { getAuthenticatedUser } from '@/lib/services/user';
 import { prisma } from "@/lib/db/db";
 
 //post endpoint for creating a post

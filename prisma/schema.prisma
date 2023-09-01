@@ -36,16 +36,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?        @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  createdAt     DateTime  @default(now())
+  createdAt     DateTime       @default(now())
   posts         Post[]
   Like          Like[]
+  Notification  Notification[]
 }
 
 model VerificationToken {
@@ -78,4 +79,14 @@ model Like {
   postId    Int
   // type of like
   type      Boolean? // true = like, false = dislike, null = nothing
+}
+
+model Notification {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  //for which User the notification is
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  seen         Boolean // true = seen, false = unseen
+  redirectLink String
 }

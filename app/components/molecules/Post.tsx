@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Like } from "@prisma/client";
 import { LikeEnum } from "@/lib/types/enums/likes";
 import ReactionBar from "../atoms/ReactionBar";
-import { getAuthenticatedUser } from '@/lib/"services"/user';
+import { getAuthenticatedUser } from "@/lib/services/user";
 interface Props {
   content: string;
   id: number;
@@ -15,10 +15,6 @@ interface Props {
 }
 
 const Post = async ({ content, id, author, likes, createdAt }: Props) => {
-  const likeAmount = likes.filter((like) => like.type === true).length;
-  const dislikeAmount = likes.filter((like) => like.type === false).length;
-  //check if current user liked/disliked post
-  //id of the current user
   const user = await getAuthenticatedUser();
   const userChoice = likes.find((like) => like.authorId === user?.id);
   const userReaction = userChoice?.type
@@ -42,19 +38,19 @@ const Post = async ({ content, id, author, likes, createdAt }: Props) => {
       ((((timeSince % 31536000000) % 86400000) % 3600000) % 60000) / 1000
     );
 
-    // if (minutes < 60) {
-    return `${minutes} minutes and ${seconds} seconds ago`;
-    // }
-    // if (hours < 24) {
-    //   return `${hours} hours and ${minutes} minutes ago`;
-    // }
-    // if (days < 30) {
-    //   return `${days} days ${hours} hours ago`;
-    // }
-    // return `${years} years {day} days ago`;
+    if (minutes < 60) {
+      return `${minutes} min and ${seconds} sec ago`;
+    }
+    if (hours < 24) {
+      return `${hours} h and ${minutes} min ago`;
+    }
+    if (days < 30) {
+      return `${days} days ${hours} h ago`;
+    }
+    return `${years} years {day} days ago`;
   };
   return (
-    <div className=" sm:w-80 md:w-96 lg:w-[500px] xl:w-[550px] 2xl:w-[600px] w-52 rounded-lg m-4 hover:shadow-xl hover:scale-[1.01] transition-all bg-info  text-black">
+    <div className=" w-full rounded-lg m-4 hover:shadow-xl hover:scale-[1.01] transition-all bg-info  text-black">
       <div className="card-body">
         <div className="flex justify-between items-center rounded-md">
           <h2 className="text-lg font-bold">{author.name}</h2>

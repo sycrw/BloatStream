@@ -1,5 +1,5 @@
 import PostList from "./components/organisms/PostList";
-import { getAuthenticatedUser } from '@/lib/"services"/user';
+import { getAuthenticatedUser } from "@/lib/services/user";
 import { getServerSession } from "next-auth";
 
 interface Props {

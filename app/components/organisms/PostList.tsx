@@ -1,14 +1,14 @@
 import { Like } from "@prisma/client";
 import Post from "../molecules/Post";
-import { getAllPosts } from '@/lib/"services"/posts';
-import { getAuthenticatedUser } from '@/lib/"services"/user';
+import { getAllPosts } from "@/lib/services/posts";
+import { getAuthenticatedUser } from "@/lib/services/user";
 
 const PostList = async () => {
   const user = await getAuthenticatedUser();
   const posts = await getAllPosts(user);
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-9/12 flex flex-col items-center p-4 border-gray-500 m-auto ">
       {posts.map((post) => {
         const userLiked = post.likes.find((like) => like.authorId === user?.id);
         const likeType = userLiked ? userLiked.type : null;
