@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { LikeEnum } from "@/lib/types/enums/likes";
-import { LikeWithPostAndUser } from "@/lib/types/prisma-extended/like-with-post-and-user";
+import { LikeFull } from "@/lib/types/prisma-extended/like-full";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface ReactionBarProps {
   user: LikeEnum;
   postId: number;
-  likesList: LikeWithPostAndUser[];
+  likesList: LikeFull[];
 }
 
 const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
@@ -97,9 +97,21 @@ const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
           >
             {userReaction == LikeEnum.DISLIKE ||
             userReaction == LikeEnum.NULL ? (
-              <img src="heart.svg" alt="" />
+              <Image
+                unoptimized
+                src="heart.svg"
+                alt=""
+                width={20}
+                height={20}
+              />
             ) : (
-              <img src="heart.fill.svg" alt="" />
+              <Image
+                unoptimized
+                src="heart.fill.svg"
+                alt=""
+                width={20}
+                height={20}
+              />
             )}
           </button>
           <button
@@ -115,9 +127,21 @@ const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
             onClick={() => handleUserReaction(LikeEnum.DISLIKE)}
           >
             {userReaction == LikeEnum.LIKE || userReaction == LikeEnum.NULL ? (
-              <img src="hand.thumbsdown.svg" alt="" />
+              <Image
+                width={20}
+                height={20}
+                unoptimized
+                src="hand.thumbsdown.svg"
+                alt=""
+              />
             ) : (
-              <img src="hand.thumbsdown.fill.svg" alt="" />
+              <Image
+                width={20}
+                height={20}
+                unoptimized
+                src="hand.thumbsdown.fill.svg"
+                alt=""
+              />
             )}
           </button>
           <button
@@ -138,7 +162,7 @@ const ReactionBar = ({ user, postId, likesList }: ReactionBarProps) => {
           {/* list container */}
           <div>
             <ul className="divide-y divide-gray-200">
-              {likesList.map((like: LikeWithPostAndUser, i: number) => {
+              {likesList.map((like: LikeFull, i: number) => {
                 const date = new Date(like.createdAt);
                 return (
                   <li className="py-4 flex justify-between" key={i}>

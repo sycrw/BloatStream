@@ -1,13 +1,13 @@
 import { JWTSession } from "../types/JWTSession";
-import { TURBO_TRACE_DEFAULT_MEMORY_LIMIT } from "next/dist/shared/lib/constants";
+import { User } from "@prisma/client";
+import { UserFull } from "../types/prisma-extended/user-full";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth"
-//import prisma
 import { prisma } from "../db/db";
 import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
 
-export const getAuthenticatedUser = async () => {
+export const getAuthenticatedUser = async ():Promise<User> => {
     const session = await getServerSession(authOptions) as JWTSession;
     if(!session){
         console.log("signin")
@@ -27,8 +27,20 @@ export const getAuthenticatedUser = async () => {
                 callbackUrl:process.env.APP_URL + "/",
             }
         )
-        return user;
+        throw new Error("User not found");
     }
     //return user
     return user;
+}
+
+export const getUserById = async (id:string) => {
+    const user = await prisma.user.findUnique({
+        where:{
+            id,
+        },
+    });
+    if(!user){
+        throw new Error("User not found");
+    }
+    return user
 }

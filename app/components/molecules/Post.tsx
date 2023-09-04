@@ -1,22 +1,19 @@
+import { Like, User } from "@prisma/client";
+
 import Image from "next/image";
-import { Like } from "@prisma/client";
 import { LikeEnum } from "@/lib/types/enums/likes";
+import Link from "next/link";
+import { PostFull } from "@/lib/types/prisma-extended/post-full";
 import ReactionBar from "../atoms/ReactionBar";
 import { getAuthenticatedUser } from "@/lib/services/user";
+
 interface Props {
-  content: string;
-  id: number;
-  author: {
-    name: string | null;
-    image: string | null;
-  };
-  likes: Like[];
-  createdAt: Date;
+  post: PostFull;
+  user: User;
 }
 
-const Post = async ({ content, id, author, likes, createdAt }: Props) => {
-  const user = await getAuthenticatedUser();
-  const userChoice = likes.find((like) => like.authorId === user?.id);
+const Post = async ({ post, user }: Props) => {
+  const userChoice = post.likes.find((like) => like.authorId === user?.id);
   const userReaction = userChoice?.type
     ? LikeEnum.LIKE
     : userChoice?.type === false
@@ -26,7 +23,7 @@ const Post = async ({ content, id, author, likes, createdAt }: Props) => {
   const timeSincePost = () => {
     //get time since post and give it in min/ hours/days
     const now = Date.now();
-    const postDate = new Date(createdAt);
+    const postDate = new Date(post.createdAt);
     const timeSince = now - postDate.getTime();
     const years = Math.floor(timeSince / 31536000000);
     const days = Math.floor((timeSince % 31536000000) / 86400000);
@@ -58,25 +55,30 @@ const Post = async ({ content, id, author, likes, createdAt }: Props) => {
     <div className=" w-full rounded-lg m-4 hover:shadow-xl hover:scale-[1.01] transition-all bg-info  text-black">
       <div className="card-body">
         <div className="flex justify-between items-center rounded-md">
-          <h2 className="text-lg font-bold">{author.name}</h2>
-          <Image
-            className=" w-10  rounded-full shadow-sm hover:shadow-xl"
-            src={author.image || "/person.svg"}
-            alt="author image"
-            unoptimized={true}
-            width={40}
-            height={40}
-          />
+          <h2 className="text-lg font-bold">{post.author.name}</h2>
+          <Link href={`user/${post.authorId}`}>
+            <Image
+              className=" w-10  rounded-full shadow-sm hover:shadow-xl"
+              src={post.author.image || "/person.svg"}
+              alt="author image"
+              unoptimized={true}
+              width={40}
+              height={40}
+            />
+          </Link>
         </div>
-        <p>{content}</p>
+        <p>{post.content}</p>
         <ReactionBar
           user={userReaction}
-          postId={id}
-          likesList={likes}
+          postId={post.id}
+          likesList={post.likes}
         ></ReactionBar>
         <div className="flex justify-between items-center">
           <p className="text-xs text-gray-500">{timeSincePost()}</p>
-          <a href={`/post/${id}`} className="btn btn-ghost btn-circle btn-sm">
+          <a
+            href={`/post/${post.id}`}
+            className="btn btn-ghost btn-circle btn-sm"
+          >
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"

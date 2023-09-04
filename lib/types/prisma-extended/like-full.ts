@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-export type LikeWithPostAndUser = Prisma.LikeGetPayload<{
+export type LikeFull = Prisma.LikeGetPayload<{
   include: {
     post: true;
     author: true;

@@ -18,6 +18,11 @@ pipeline {
         checkout scmGit(branches: [[name: '*/int']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sycrw/BloatStream.git']])
       }
     }
+    stage('Line') {
+      steps {
+        sh 'npm run lint'
+      }
+    }
     stage('Build') {
       steps {
         script {

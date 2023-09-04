@@ -1,17 +1,15 @@
 import PostList from "./components/organisms/PostList";
+import { getAllPosts } from "@/lib/services/posts";
 import { getAuthenticatedUser } from "@/lib/services/user";
 import { getServerSession } from "next-auth";
+import { use } from "react";
 
-interface Props {
-  searchParams: Record<string, string> | undefined | null;
-}
-
-export default async function Home({ searchParams }: Props) {
-  const sessionUser = await getServerSession();
+export default async function Home() {
   const user = await getAuthenticatedUser();
+  const posts = await getAllPosts(user);
   return (
     <>
-      <PostList />
+      <PostList posts={posts} user={user} />
     </>
   );
 }
