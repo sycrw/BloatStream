@@ -17,20 +17,25 @@ const SingleNotification = ({ notification }: Props) => {
         return `${notification.relatedUser!.name} liked your post`;
       case NotificationType.Dislike:
         return `${notification.relatedUser!.name} disliked your post`;
+      case NotificationType.Follow:
+        return `${notification.relatedUser!.name} followed you`;
+      case NotificationType.Post:
+        return `${notification.relatedUser!.name} posted`;
       default:
         return "error";
     }
   };
   const [seen, setSeen] = useState(notification.seen);
   const RedirectUser = () => {
-    console.log(notification.type, "type");
     if (
       notification.type === NotificationType.Like ||
       notification.type === NotificationType.Dislike
     ) {
       router.push(`/post/${notification.relatedPost!.id}`);
-    } else {
-      router.push("/");
+    } else if (notification.type === NotificationType.Follow) {
+      router.push(`/user/${notification.relatedUser!.id}`);
+    } else if (notification.type === NotificationType.Post) {
+      router.push(`/post/${notification.relatedPost!.id}`);
     }
   };
 

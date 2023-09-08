@@ -1,6 +1,9 @@
+import FollowButton from "../atoms/FollowButton";
 import Image from "next/image";
 import StatsVertical from "../molecules/StatsVertical";
 import { User } from "@prisma/client";
+import { checkIfUserFollows } from "@/lib/services/follow";
+import { getAuthenticatedUser } from "@/lib/services/user";
 
 interface UserHeaderProps {
   user: User;
@@ -9,12 +12,13 @@ interface UserHeaderProps {
   postCount: number;
 }
 
-const UserHeader = ({
+const UserHeader = async ({
   user,
   likesCount,
   dislikesCount,
   postCount,
 }: UserHeaderProps) => {
+  const userThatIsFollowing = await getAuthenticatedUser();
   const reactionStats = [
     {
       title: "Comments",
@@ -47,7 +51,7 @@ const UserHeader = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex lg:flex-row flex-col justify-center">
+      <div className="grid lg:grid-cols-2">
         <div className="flex items-center m-2">
           <Image
             src={user.image || "/person.svg"}
@@ -63,13 +67,19 @@ const UserHeader = ({
           <StatsVertical stats={userStats} />
         </div>
       </div>
-      <div className="grid grid-rows-2 lg:grid-cols-2">
+      <div className="grid lg:grid-cols-2">
         <div className="m-2 flex justify-center items-center">
           <StatsVertical stats={reactionStats} />
         </div>
         <div className="m-2 flex justify-center items-center">
-          {/* follow button  full size of container*/}
-          <button className="btn btn-info">Follow</button>
+          <FollowButton
+            isFollowing={await checkIfUserFollows(
+              userThatIsFollowing.id,
+              user.id
+            )}
+            userThatIsFollowingId={userThatIsFollowing.id}
+            userToFollowId={user.id}
+          ></FollowButton>
         </div>
       </div>
     </div>
